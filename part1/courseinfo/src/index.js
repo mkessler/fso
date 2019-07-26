@@ -1,62 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = (props) => (
-  <h1>
-    {props.course}
-  </h1>
+const Display = ({ counter }) => <div>{counter}</div>
+const Button = ({ onClick, text }) => (
+  <button onClick={onClick}>
+    {text}
+  </button>
 )
 
-const Content = (props) => {
+const App = (props) => {
+  const [ counter, setCounter ] = useState(0)
+  const setToValue = (value) => () => setCounter(value)
+
+
   return (
     <div>
-      <Part name={props.parts[0].name} exercises={props.parts[0].exercises}/>
-      <Part name={props.parts[1].name} exercises={props.parts[1].exercises}/>
-      <Part name={props.parts[2].name} exercises={props.parts[2].exercises}/>
+      <Display counter={counter}/>
+      <Button
+        onClick={setToValue(counter + 1)}
+        text='plus'
+      />
+      <Button
+        onClick={setToValue(counter - 1)}
+        text='minus'
+      />
+      <Button
+        onClick={setToValue(0)}
+        text='zero'
+      />
     </div>
   )
 }
 
-const Part = (props) => {
-  return (
-    <p>
-      {props.name} {props.exercises}
-    </p>
-  )
-}
-
-const Total = (props) => (
-  <p>
-    Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}
-  </p>
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
 )
-
-const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
-  }
-
-  return (
-    <>
-      <Header course={course.name}/>
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
-    </>
-  )
-}
-
-ReactDOM.render(<App />, document.getElementById('root'))
