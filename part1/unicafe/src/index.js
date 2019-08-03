@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = ({text}) => (
-  <h1>{text}</h1>
-)
-
 const Button = (props) => (
   <button onClick={props.handleClick}>
     {props.text}
   </button>
+)
+
+const Header = ({text}) => (
+  <h1>{text}</h1>
 )
 
 const Statistic = ({text, value}) => (
@@ -22,6 +22,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const all = good + bad + neutral
 
   return (
     <>
@@ -33,6 +34,9 @@ const App = () => {
       <Statistic text="good" value={good} />
       <Statistic text="neutral" value={neutral} />
       <Statistic text="bad" value={bad} />
+      <Statistic text="all" value={all} />
+      <Statistic text="average" value={(good - bad) / all} />
+      <Statistic text="positive" value={(good / all) * 100 + ' %'} />
     </>
   )
 }
