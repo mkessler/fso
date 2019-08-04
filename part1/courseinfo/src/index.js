@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Display = ({ counter }) => <div>{counter}</div>
+
 const Button = ({ onClick, text }) => (
   <button onClick={onClick}>
     {text}
@@ -11,7 +12,6 @@ const Button = ({ onClick, text }) => (
 const App = (props) => {
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => () => setCounter(value)
-
 
   return (
     <div>
