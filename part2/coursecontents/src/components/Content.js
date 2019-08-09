@@ -2,7 +2,7 @@ import React from 'react'
 import Part from './Part'
 
 const Content = ({ parts }) => {
-  const formatted_parts = () => parts.map(part =>
+  const formatted_parts = parts.map(part =>
     <Part
       key={part.id}
       name={part.name}
@@ -12,7 +12,7 @@ const Content = ({ parts }) => {
 
   return (
     <div>
-      {formatted_parts()}
+      {formatted_parts}
     </div>
   )
 }
