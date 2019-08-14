@@ -1,9 +1,10 @@
 import React from 'react'
 
-const CountriesList = ({ countries }) => {
+const CountriesList = ({ countries, handleClick }) => {
   const rows = () => countries.map(country =>
     <div key={country.name}>
       {country.name}
+      <button onClick={handleClick(country.name)}>show</button>
     </div>
   )
 

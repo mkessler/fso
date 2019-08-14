@@ -16,16 +16,18 @@ const App = () => {
   }
   useEffect(fetchCountries, [])
 
+  const setToFilter = (filter) => () => setNewFilter(filter)
+
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value)
+  }
+
   const countriesToShow = newFilter
     ? countries.filter(country => country.name.toLowerCase().includes(newFilter.toLowerCase()))
     : []
 
   const content = countriesToShow.length === 1 ?
-    <Country country={countriesToShow[0]} />  : <CountriesList countries={countriesToShow} />
-
-  const handleFilterChange = (event) => {
-    setNewFilter(event.target.value)
-  }
+    <Country country={countriesToShow[0]} />  : <CountriesList countries={countriesToShow} handleClick={setToFilter} />
 
   return (
     <div>
