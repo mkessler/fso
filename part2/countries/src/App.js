@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Filter from './components/Filter'
-import CountriesList from './components/CountriesList'
-import Country from './components/Country'
+import Countries from './components/Countries'
 
 const App = () => {
   const [ countries, setCountries] = useState([])
@@ -22,20 +21,17 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
-  const countriesToShow = newFilter
-    ? countries.filter(country => country.name.toLowerCase().includes(newFilter.toLowerCase()))
-    : []
-
-  const content = countriesToShow.length === 1 ?
-    <Country country={countriesToShow[0]} />  : <CountriesList countries={countriesToShow} handleClick={setToFilter} />
-
   return (
     <div>
       <Filter
         filter={newFilter}
         handleChange={handleFilterChange}
       />
-      {content}
+      <Countries
+        countries={countries}
+        filter={newFilter}
+        handleClick={setToFilter}
+      />
     </div>
   )
 }
