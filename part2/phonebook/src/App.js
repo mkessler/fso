@@ -23,8 +23,23 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (personExists()) {
-      alert(`${newName} is already added to phonebook`)
+    const existingPerson = findPersonByName(newName)
+
+    if (existingPerson) {
+      if (window.confirm(`${existingPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const changedPerson = { ...existingPerson, number: newNumber }
+        personService
+          .update(existingPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+          })
+          .catch(error => {
+            alert(
+              `the person '${existingPerson.name}' was already deleted from server`
+            )
+            setPersons(persons.filter(p => p.id !== existingPerson.id))
+          })
+      }
     } else {
       const personObject = {
         name: newName,
@@ -48,7 +63,7 @@ const App = () => {
       personService
         .destroy(id)
         .then(returnedPerson => {
-          setPersons(persons.filter(p => p.id !== returnedPerson.id))
+          setPersons(persons.filter(p => p.id !== id))
         })
         .catch(error => {
           alert(
@@ -72,8 +87,8 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const personExists = () =>
-    persons.find(person => person.name === newName)
+  const findPersonByName = (name) =>
+    persons.find(person => person.name.toLowerCase() === name.toLowerCase())
 
   const personsToShow = newFilter
     ? persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
