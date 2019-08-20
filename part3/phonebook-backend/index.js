@@ -31,6 +31,9 @@ const generateId = () => {
   return Math.floor(Math.random() * Math.floor(9999999))
 }
 
+const findPersonByName = (name) =>
+  persons.find(person => person.name.toLowerCase() === name.toLowerCase())
+
 app.get('/info', (req, res) => {
   const persons_count = persons.length
   const persons_formatted = persons.length === 1 ? "person" : "people"
@@ -68,6 +71,12 @@ app.post('/api/persons', (request, response) => {
   if (!body.name) {
     return response.status(400).json({
       error: 'name missing'
+    })
+  }
+
+  if (findPersonByName(body.name)) {
+    return response.status(400).json({
+      error: 'name must be unique'
     })
   }
 
